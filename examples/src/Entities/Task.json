@@ -1,0 +1,84 @@
+{
+  "$id": "tasks",
+  "name": "Tasks",
+  "documentSecurity": false,
+  "attributes": [
+    {
+      "key": "title",
+      "type": "string",
+      "size": 255,
+      "required": true,
+      "default": null,
+      "array": false
+    },
+    {
+      "key": "description",
+      "type": "string",
+      "size": 4000,
+      "required": false,
+      "default": null,
+      "array": false
+    },
+    {
+      "key": "status",
+      "type": "string",
+      "size": 50,
+      "required": true,
+      "default": "todo",
+      "array": false
+    },
+    {
+      "key": "priority",
+      "type": "integer",
+      "required": false,
+      "default": 0,
+      "min": 0,
+      "max": 3,
+      "array": false
+    },
+    {
+      "key": "tags",
+      "type": "string",
+      "size": 100,
+      "required": false,
+      "default": null,
+      "array": true
+    },
+    {
+      "key": "dueDate",
+      "type": "datetime",
+      "required": false,
+      "default": null,
+      "array": false
+    },
+    {
+      "key": "assigneeId",
+      "type": "string",
+      "size": 36,
+      "required": false,
+      "default": null,
+      "array": false
+    },
+    {
+      "key": "completed",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "array": false
+    }
+  ],
+  "indexes": [
+    {
+      "key": "status_idx",
+      "type": "key",
+      "attributes": ["status"],
+      "orders": ["ASC"]
+    },
+    {
+      "key": "assignee_idx",
+      "type": "key",
+      "attributes": ["assigneeId"],
+      "orders": ["ASC"]
+    }
+  ]
+}

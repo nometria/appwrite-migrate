@@ -1,0 +1,19 @@
+
+appwrite-migrate — schema-driven Appwrite migration runner
+
+Usage:
+  appwrite-migrate [options]
+
+Options:
+  --app-dir, -a   Path to your app directory (default: cwd)
+  --dry-run        Validate config without creating collections
+  --help, -h       Show this help
+
+Env vars (in .env or shell):
+  APPWRITE_ENDPOINT          https://cloud.appwrite.io/v1
+  APPWRITE_PROJECT_ID        your-project-id
+  APPWRITE_API_KEY           your-api-key
+  APPWRITE_DATABASE_ID       main (default)
+  APPWRITE_MIGRATIONS_DIR    path/to/migrations (default: <app-dir>/db/appwrite)
+  RUN_APPWRITE_MIGRATIONS    true (set to false to skip)
+

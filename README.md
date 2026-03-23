@@ -11,6 +11,33 @@ Creates collections from JSON Entity schemas, handles all attribute types (inclu
 
 ---
 
+## Quick start
+
+```bash
+# Install
+npm install --save-dev appwrite-migrate
+
+# Set up your environment
+cat > .env << 'EOF'
+APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+APPWRITE_PROJECT_ID=your-project-id
+APPWRITE_API_KEY=your-api-key
+APPWRITE_DATABASE_ID=main
+EOF
+
+# Place entity schemas (see examples/src/Entities/)
+mkdir -p src/Entities
+# Copy examples/src/Entities/Task.json to src/Entities/
+
+# Run migrations
+npx appwrite-migrate
+
+# Validate without writing anything
+npx appwrite-migrate --dry-run
+```
+
+---
+
 ## Install
 
 ```bash
@@ -204,3 +231,46 @@ PRs welcome. Run tests with `npm test`.
 ## License
 
 MIT © [Nometria](https://nometria.com)
+
+---
+
+## Example output
+
+Running `node --test tests/migrate.test.js`:
+
+```
+✔ CLI prints help and exits 0 (50.738208ms)
+✔ CLI errors without required config (117.514125ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 314.400125
+```
+
+CLI help output:
+
+```
+appwrite-migrate — schema-driven Appwrite migration runner
+
+Usage:
+  appwrite-migrate [options]
+
+Options:
+  --app-dir, -a   Path to your app directory (default: cwd)
+  --dry-run        Validate config without creating collections
+  --help, -h       Show this help
+
+Env vars (in .env or shell):
+  APPWRITE_ENDPOINT          https://cloud.appwrite.io/v1
+  APPWRITE_PROJECT_ID        your-project-id
+  APPWRITE_API_KEY           your-api-key
+  APPWRITE_DATABASE_ID       main (default)
+  APPWRITE_MIGRATIONS_DIR    path/to/migrations (default: <app-dir>/db/appwrite)
+  RUN_APPWRITE_MIGRATIONS    true (set to false to skip)
+```
+
+See `examples/src/Entities/` for sample Task and User schema files.
