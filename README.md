@@ -1,7 +1,7 @@
 # appwrite-migrate
 
-[![npm version](https://img.shields.io/npm/v/appwrite-migrate.svg)](https://www.npmjs.com/package/appwrite-migrate)
-[![npm downloads](https://img.shields.io/npm/dm/appwrite-migrate.svg)](https://www.npmjs.com/package/appwrite-migrate)
+[![npm version](https://img.shields.io/npm/v/%40nometria-ai%2Fappwrite-migrate.svg)](https://www.npmjs.com/package/@nometria-ai/appwrite-migrate)
+[![npm downloads](https://img.shields.io/npm/dm/%40nometria-ai%2Fappwrite-migrate.svg)](https://www.npmjs.com/package/@nometria-ai/appwrite-migrate)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -15,7 +15,7 @@ Creates collections from JSON Entity schemas, handles all attribute types (inclu
 
 ```bash
 # Install
-npm install --save-dev appwrite-migrate
+npm install --save-dev @nometria-ai/appwrite-migrate
 
 # Set up your environment
 cat > .env << 'EOF'
@@ -45,10 +45,10 @@ npx appwrite-migrate --dry-run
 npx appwrite-migrate
 
 # Install globally
-npm install -g appwrite-migrate
+npm install -g @nometria-ai/appwrite-migrate
 
 # Or as a dev dependency
-npm install --save-dev appwrite-migrate
+npm install --save-dev @nometria-ai/appwrite-migrate
 ```
 
 ---
@@ -201,7 +201,7 @@ Environment variables:
 ## Use as a library
 
 ```js
-import { runMigrations } from 'appwrite-migrate';
+import { runMigrations } from '@nometria-ai/appwrite-migrate';
 
 await runMigrations({
   appDir: './my-app',

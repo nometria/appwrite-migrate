@@ -1,5 +1,5 @@
 {
-  "name": "appwrite-migrate",
+  "name": "@nometria-ai/appwrite-migrate",
   "version": "1.0.0",
   "description": "Schema-driven migration runner for Appwrite. The missing prisma migrate for Appwrite — creates collections, seeds data, tracks applied migrations.",
   "type": "module",
@@ -20,8 +20,16 @@
     "prepublishOnly": "npm test"
   },
   "keywords": [
-    "appwrite", "migrations", "database", "schema", "seed",
-    "collections", "backend", "baas", "cli", "devtools"
+    "appwrite",
+    "migrations",
+    "database",
+    "schema",
+    "seed",
+    "collections",
+    "backend",
+    "baas",
+    "cli",
+    "devtools"
   ],
   "license": "MIT",
   "author": "Nometria <hello@nometria.com>",
