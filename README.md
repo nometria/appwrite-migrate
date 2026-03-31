@@ -1,21 +1,11 @@
 # appwrite-migrate
 
+Built by the [Nometria](https://nometria.com) team — we take AI-built apps to production.
+
 [![npm version](https://img.shields.io/npm/v/%40nometria-ai%2Fappwrite-migrate.svg)](https://www.npmjs.com/package/@nometria-ai/appwrite-migrate)
 [![npm downloads](https://img.shields.io/npm/dm/%40nometria-ai%2Fappwrite-migrate.svg)](https://www.npmjs.com/package/@nometria-ai/appwrite-migrate)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-<div align="center">
-
-**[Nometria](https://nometria.com)** takes AI-built apps to production on AWS — secure, scalable, ready for real users.
-
-<sub><i>Some of our customers build on Appwrite before moving to production. This tool handles schema migrations cleanly so they don't lose data.</i></sub>
-
-[![Deploy with Nometria](https://img.shields.io/badge/Deploy%20with-Nometria-111827?style=for-the-badge)](https://nometria.com)
-
-</div>
-
----
 
 > Schema-driven migration runner for Appwrite. The missing `prisma migrate` for Appwrite.
 
@@ -287,6 +277,3 @@ Env vars (in .env or shell):
 
 See `examples/src/Entities/` for sample Task and User schema files.
 
----
-
-<p align="center">Made with ❤️ by <a href="https://nometria.com">Nometria</a> — deploy AI apps to production in one click</p>
