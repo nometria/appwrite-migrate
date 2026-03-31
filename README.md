@@ -1,5 +1,9 @@
 # appwrite-migrate
 
+<p align="center">
+  <b>Built by <a href="https://nometria.com">Nometria</a></b> — We take AI-built apps to production.
+</p>
+
 [![npm version](https://img.shields.io/npm/v/%40nometria-ai%2Fappwrite-migrate.svg)](https://www.npmjs.com/package/@nometria-ai/appwrite-migrate)
 [![npm downloads](https://img.shields.io/npm/dm/%40nometria-ai%2Fappwrite-migrate.svg)](https://www.npmjs.com/package/@nometria-ai/appwrite-migrate)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
@@ -225,6 +229,28 @@ The API key used must have these scopes enabled in the Appwrite Console:
 ## Contributing
 
 PRs welcome. Run tests with `npm test`.
+
+---
+
+---
+
+## Built by Nometria
+
+<a href="https://nometria.com">
+  <img src="https://img.shields.io/badge/nometria.com-Take%20AI%20apps%20to%20production-111827?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNMTIgMkw0IDdWMTdMMTIgMjJMMjAgMTdWN0wxMiAyWiIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIi8+PC9zdmc+" alt="Nometria" />
+</a>
+
+**appwrite-migrate** is open source and free to use. It's one of the developer tools we built while helping teams ship AI-generated apps to production.
+
+Some of our customers build on Appwrite before moving to production. This tool handles schema migrations cleanly so they don't lose data.
+
+**What Nometria does:**
+- :rocket: **Deploy AI apps to AWS** -- one click, production-ready
+- :lock: **Security & compliance** -- SOC 2, HIPAA-ready infrastructure
+- :chart_with_upwards_trend: **Scale reliably** -- handles real user traffic from day one
+- :wrench: **Full source code ownership** -- you own everything, no lock-in
+
+If you're building with AI tools (Base44, Lovable, Bolt, Replit, Cursor) and need to go to production -- **[nometria.com](https://nometria.com)**
 
 ---
 
