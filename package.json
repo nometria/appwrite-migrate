@@ -1,7 +1,7 @@
 {
   "name": "@nometria-ai/appwrite-migrate",
   "version": "1.0.1",
-  "description": "Schema-driven migration runner for Appwrite. The missing prisma migrate for Appwrite — creates collections, seeds data, tracks applied migrations.",
+  "description": "Schema-driven migration runner for Appwrite. The missing prisma migrate for Appwrite - creates collections, seeds data, tracks applied migrations.",
   "type": "module",
   "bin": {
     "appwrite-migrate": "./src/cli.js"

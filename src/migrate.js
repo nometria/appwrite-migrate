@@ -7,7 +7,7 @@
  *
  * Usage:
  *   APP_DIR=/path/to/app node scripts/run_appwrite_migrations.js
- *   Or: cd apps/base44-downloader && ../scripts/run_appwrite_migrations.js
+ *   Or: cd base44-downloader && ../scripts/run_appwrite_migrations.js
  *
  * Env vars (from .env):
  *   APPWRITE_ENDPOINT, APPWRITE_PROJECT_ID, APPWRITE_API_KEY

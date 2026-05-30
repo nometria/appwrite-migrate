@@ -29,7 +29,7 @@ const { values } = parseArgs({
 
 if (values.help) {
   console.log(`
-appwrite-migrate — schema-driven Appwrite migration runner
+appwrite-migrate - schema-driven Appwrite migration runner
 
 Usage:
   appwrite-migrate [options]
@@ -66,7 +66,7 @@ if (existsSync(dotenvPath)) {
 process.env.APP_DIR = appDir;
 
 if (values['dry-run']) {
-  console.log('[appwrite-migrate] DRY RUN — validating config only');
+  console.log('[appwrite-migrate] DRY RUN - validating config only');
   process.env.RUN_APPWRITE_MIGRATIONS = 'false';
 }
 

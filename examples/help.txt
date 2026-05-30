@@ -1,5 +1,5 @@
 
-appwrite-migrate — schema-driven Appwrite migration runner
+appwrite-migrate - schema-driven Appwrite migration runner
 
 Usage:
   appwrite-migrate [options]

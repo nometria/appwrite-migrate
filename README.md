@@ -1,6 +1,6 @@
 # appwrite-migrate
 
-Built by the [Nometria](https://nometria.com) team. We help developers take apps built with AI tools (Lovable, Bolt, Base44, Replit) to production — handling deployment to AWS, security, scaling, and giving you full code ownership. [Learn more →](https://nometria.com)
+Built by the [Nometria](https://nometria.com) team. We help developers take apps built with AI tools (Lovable, Bolt, Base44, Replit) to production - handling deployment to AWS, security, scaling, and giving you full code ownership. [Learn more →](https://nometria.com)
 
 [![npm version](https://img.shields.io/npm/v/%40nometria-ai%2Fappwrite-migrate.svg)](https://www.npmjs.com/package/@nometria-ai/appwrite-migrate)
 [![npm downloads](https://img.shields.io/npm/dm/%40nometria-ai%2Fappwrite-migrate.svg)](https://www.npmjs.com/package/@nometria-ai/appwrite-migrate)
@@ -9,7 +9,7 @@ Built by the [Nometria](https://nometria.com) team. We help developers take apps
 
 > Schema-driven migration runner for Appwrite. The missing `prisma migrate` for Appwrite.
 
-Creates collections from JSON Entity schemas, handles all attribute types (including native string arrays and float/integer range clamping), seeds data from a JSON file, and tracks applied migrations idempotently — so it's safe to run on every deploy.
+Creates collections from JSON Entity schemas, handles all attribute types (including native string arrays and float/integer range clamping), seeds data from a JSON file, and tracks applied migrations idempotently - so it's safe to run on every deploy.
 
 ---
 
@@ -141,7 +141,7 @@ your-app/
 | `string` | String | `maxLength` respected (default: 255) |
 | `integer` | Integer | `minimum`/`maximum` clamped to Appwrite limits |
 | `float` | Float | `minimum`/`maximum` clamped |
-| `boolean` | Boolean | — |
+| `boolean` | Boolean | - |
 | `array` of string | String Array | Native Appwrite array |
 | `object` | String | JSON-serialized (Appwrite has no native object type) |
 
@@ -162,7 +162,7 @@ Every collection automatically gets these fields added:
 
 ## Idempotency
 
-`appwrite-migrate` tracks every applied migration in a `migrations` collection in your Appwrite database. Running it twice is safe — already-applied migrations are skipped. This makes it suitable for `postinstall` scripts or deploy hooks.
+`appwrite-migrate` tracks every applied migration in a `migrations` collection in your Appwrite database. Running it twice is safe - already-applied migrations are skipped. This makes it suitable for `postinstall` scripts or deploy hooks.
 
 ```json
 // package.json
@@ -256,7 +256,7 @@ Running `node --test tests/migrate.test.js`:
 CLI help output:
 
 ```
-appwrite-migrate — schema-driven Appwrite migration runner
+appwrite-migrate - schema-driven Appwrite migration runner
 
 Usage:
   appwrite-migrate [options]
