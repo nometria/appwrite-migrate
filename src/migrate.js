@@ -19,6 +19,14 @@
 import fs from "fs";
 import path from "path";
 import * as sdk from "node-appwrite";
+import {
+  INTEGER_MAX,
+  FLOAT_MAX,
+  entityToCollectionId,
+  jsonTypeToAppwrite,
+  coerceValueForAttribute,
+  defaultForType,
+} from "./plan.js";
 
 function log(msg, obj) {
   console.log(`[appwrite-migrate] ${msg}`, obj ?? "");
@@ -34,46 +42,6 @@ function env(name, def = null) {
 
 function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
-}
-
-/** Default max for integer/float attributes (allow seeding any reasonable value; validation can happen in app later) */
-const INTEGER_MAX = 9007199254740991; // Number.MAX_SAFE_INTEGER
-const FLOAT_MAX = 1.7976931348623157e308; // order of magnitude for double max
-
-/**
- * Map JSON Schema type to Appwrite attribute creation.
- * Arrays use native Appwrite string-array attribute; objects use JSON string (no native object type).
- * Integer/float: pass min/max from schema so we control range; default min 0 so seeding accepts 0,1,2.
- */
-function jsonTypeToAppwrite(prop, key) {
-  const t = prop.type;
-  const enumVal = prop.enum;
-  const format = prop.format;
-  if (enumVal) return { type: "string", size: 255 };
-  if (t === "string") return { type: "string", size: format === "date" ? 32 : 65535 };
-  if (t === "number" || t === "integer") {
-    const out = { type: t === "integer" ? "integer" : "float" };
-    // Always set min/max so SDK never gets default 5. Default min=0 for both, max=INTEGER_MAX or FLOAT_MAX.
-    const min = prop.minimum != null ? Number(prop.minimum) : 0;
-    const max = prop.maximum != null ? Number(prop.maximum) : (t === "integer" ? INTEGER_MAX : FLOAT_MAX);
-    out.min = t === "integer" ? Math.floor(min) : min;
-    out.max = t === "integer" ? Math.floor(max) : max;
-    return out;
-  }
-  if (t === "boolean") return { type: "boolean" };
-  if (t === "array") return { type: "string", size: 255, array: true }; // Native string array
-  if (t === "object") return { type: "string", size: 65535 }; // No native object in Appwrite → JSON string
-  return { type: "string", size: 255 };
-}
-
-/**
- * Convert Entity name to collection ID (snake_case)
- */
-function entityToCollectionId(name) {
-  return name
-    .replace(/([A-Z])/g, "_$1")
-    .toLowerCase()
-    .replace(/^_/, "");
 }
 
 /**
@@ -244,14 +212,6 @@ async function recordMigration(databases, databaseId, filename) {
   );
 }
 
-/** Default value for a missing required attribute by type */
-function defaultForType(type) {
-  const t = (type || "").toLowerCase();
-  if (t === "integer" || t === "float") return 0;
-  if (t === "boolean") return false;
-  return "";
-}
-
 /**
  * Get allowed attribute keys, types, array flag, min/max, and required defaults for a collection.
  * Used so seed data can be filtered and coerced to match current schema (including integer/float ranges).
@@ -282,55 +242,6 @@ async function getCollectionSchemaForSeed(databases, databaseId, collectionId) {
     }
   }
   return { allowedKeys, attrTypes, attrArrays, attrMin, attrMax, requiredDefaults };
-}
-
-/**
- * Coerce a value to match the Appwrite attribute type.
- * - Native array attributes: pass array as-is (elements as strings for string[]).
- * - Object/nested: Appwrite has no native object type → JSON string.
- * - Integer/float: clamp to attribute min/max when defined.
- * - Primitives: coerce number/boolean/string as needed.
- */
-function coerceValueForAttribute(value, attrType, isArray, minVal, maxVal) {
-  const t = (attrType || "string").toLowerCase();
-  if (value === undefined || value === null) return value;
-  if (t === "string" && isArray) {
-    if (Array.isArray(value)) {
-      return value.map((v) => (typeof v === "string" ? v : String(v)));
-    }
-    if (typeof value === "object" && value !== null) {
-      return JSON.stringify(value);
-    }
-    return [String(value)];
-  }
-  if (t === "string") {
-    if (Array.isArray(value) || (typeof value === "object" && value !== null)) {
-      return JSON.stringify(value);
-    }
-    return typeof value === "string" ? value : String(value);
-  }
-  const isIntegerType = t === "integer" || t === "int";
-  if (isIntegerType || t === "float") {
-    let n;
-    if (typeof value === "number" && !Number.isNaN(value)) {
-      n = value;
-    } else {
-      n = Number(value);
-      n = Number.isNaN(n) ? (isIntegerType ? 0 : 0) : (isIntegerType ? Math.floor(n) : n);
-    }
-    // Clamp to attribute min/max so seeding succeeds even when attribute was created with min=5 (e.g. older migration)
-    if (minVal != null && n < minVal) n = minVal;
-    if (maxVal != null && n > maxVal) n = maxVal;
-    // Appwrite integer attributes reject floats (0.0, 1.0); force a real integer via parseInt
-    if (isIntegerType) return parseInt(String(Math.floor(Number(n))), 10);
-    return n;
-  }
-  if (t === "boolean") {
-    if (typeof value === "boolean") return value;
-    if (typeof value === "string") return value.toLowerCase() === "true" || value === "1";
-    return Boolean(value);
-  }
-  return value;
 }
 
 /**
@@ -497,7 +408,43 @@ async function main() {
   log("Appwrite migrations completed");
 }
 
-main().catch((e) => {
-  errlog(e.message, e);
-  process.exit(1);
-});
+/**
+ * Library entry point (documented in README). Reads config from process.env,
+ * honoring the same APP_DIR / dry-run conventions the CLI sets up, and runs the
+ * migration. Returns a promise that resolves when complete.
+ */
+export async function runMigrations(opts = {}) {
+  if (opts.appDir) process.env.APP_DIR = opts.appDir;
+  if (opts.dryRun) process.env.RUN_APPWRITE_MIGRATIONS = "false";
+  return main();
+}
+
+// Re-export the pure planning core so consumers get one import surface and the
+// CLI runner + any external planner stay perfectly in sync.
+export {
+  jsonTypeToAppwrite,
+  entityToCollectionId,
+  coerceValueForAttribute,
+  defaultForType,
+  buildPlan,
+  buildCollectionFromEntity,
+  buildMigrationManifest,
+  planSeedDocs,
+  COMMON_ATTRS,
+  INTEGER_MAX,
+  FLOAT_MAX,
+} from "./plan.js";
+
+// Auto-run only when invoked directly as a script (CLI), not when imported as a library.
+const invokedDirectly =
+  typeof process !== "undefined" &&
+  Array.isArray(process.argv) &&
+  process.argv[1] &&
+  (process.argv[1].endsWith("migrate.js") || process.argv[1].endsWith("cli.js") || process.env.APPWRITE_MIGRATE_RUN === "1");
+
+if (invokedDirectly) {
+  main().catch((e) => {
+    errlog(e.message, e);
+    process.exit(1);
+  });
+}

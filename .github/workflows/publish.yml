@@ -37,10 +37,10 @@ jobs:
           PUBLISHED=$(npm view "$PKG_NAME@$PKG_VERSION" version 2>/dev/null || echo "")
           if [ "$PUBLISHED" = "$PKG_VERSION" ]; then
             echo "already_published=true" >> $GITHUB_OUTPUT
-            echo "Version $PKG_VERSION already on npm — skipping publish"
+            echo "Version $PKG_VERSION already on npm - skipping publish"
           else
             echo "already_published=false" >> $GITHUB_OUTPUT
-            echo "New version $PKG_VERSION — will publish"
+            echo "New version $PKG_VERSION - will publish"
           fi
 
       - name: Publish to npm

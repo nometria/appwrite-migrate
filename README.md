@@ -211,6 +211,49 @@ await runMigrations({
 });
 ```
 
+### Pure planning core (no Appwrite, no network)
+
+The type mapping, manifest builder and seed coercion are also exported as a
+side-effect-free module, so you can compute a migration **plan** — and preview
+exactly how seed data would be coerced — without touching Appwrite. This is the
+same code path the CLI runner uses, so plans never drift from real runs.
+
+```js
+import {
+  buildPlan,
+  buildMigrationManifest,
+  planSeedDocs,
+} from '@nometria-ai/appwrite-migrate/plan';
+
+// 1. Plan collections from Entity schemas
+const plan = buildPlan({
+  Task: {
+    properties: {
+      title:    { type: 'string',  maxLength: 500 },
+      priority: { type: 'integer', minimum: 1, maximum: 10 },
+      tags:     { type: 'array',   items: { type: 'string' } },
+    },
+    required: ['title'],
+  },
+});
+
+// 2. A portable, ordered create manifest (downloadable JSON)
+const manifest = buildMigrationManifest(plan);
+
+// 3. Preview how 002_data.json rows would be normalized + clamped
+const seed = planSeedDocs(plan, {
+  task: [{ id: 'seed-1', title: 'Hi', priority: 99, extra: 'dropped' }],
+});
+// seed.collections[0].rows[0] ->
+//   { id: 'seed-1', document: { title: 'Hi', priority: 10 },
+//     dropped: ['extra'], clamped: [{ key: 'priority', from: 99, to: 10 }],
+//     filled: [], skipped: false }
+```
+
+Exports: `buildPlan`, `buildCollectionFromEntity`, `buildMigrationManifest`,
+`planSeedDocs`, `coerceValueForAttribute`, `jsonTypeToAppwrite`,
+`entityToCollectionId`, `COMMON_ATTRS`.
+
 ---
 
 ## Important: API key permissions
